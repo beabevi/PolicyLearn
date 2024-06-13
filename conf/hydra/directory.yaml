@@ -1,0 +1,10 @@
+run:
+  dir: sweep/${hydra.job.name}/${oc.env:WANDB_SWEEP_ID,${now:%Y%m%d}-${now:%H%M%S}}/seed=${seed}
+sweep:
+  dir: sweep/${hydra.job.name}/${now:%Y%m%d}-${now:%H%M%S}
+  subdir: ${hydra.job.num}-${hydra.job.override_dirname}/seed=${seed}
+job:
+  config:
+    override_dirname:
+      exclude_keys:
+        - seed

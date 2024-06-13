@@ -1,0 +1,5 @@
+defaults:
+  - /optim@optimizer: AdamConfig
+  - /optim@scheduler: LambdaLRConfig
+  - _self_
+

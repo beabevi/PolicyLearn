@@ -1,0 +1,65 @@
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - ${args_no_hyphens}
+  - model_backbone.GNNConv='${callable:models.OGBGCustomGINE}'
+  - selection_backbone.GNNConv='${callable:models.OGBGCustomGINE}'
+  - optim@opt.scheduler=StepLRConfig
+method: grid
+parameters:
+  batch_size:
+    value: 128
+  drop_ratio:
+    values:
+      - 0
+  gumbel_softmax_tau:
+    values:
+      - 1
+  model_backbone.add_residual:
+    values:
+      - true
+  model_backbone.emb_dim:
+    values:
+      - 64
+  model_backbone.num_layers:
+    values:
+      - 2
+      - 3
+  model_backbone.track_running_stats:
+    value: true
+  num_marked:
+    values:
+      - 1
+  num_subgraphs:
+    values:
+      - 3
+  opt.num_epochs:
+    value: 1000
+  opt.scheduler.step_size:
+    values:
+      - 300
+  seed:
+    values:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+  selection_backbone.emb_dim:
+    values:
+      - 64
+  selection_backbone.track_running_stats:
+    value: false
+  selection_opt.num_epochs:
+    value: 1000
+  selection_opt.optimizer.lr:
+    value: 0.001
+  selection_type:
+    value: random
+  task:
+    value: ogbg-molesol
+  task.num_hops:
+    values:
+      - "null"
+program: train.py

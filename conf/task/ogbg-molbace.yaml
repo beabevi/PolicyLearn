@@ -1,0 +1,16 @@
+defaults:
+  - TaskConfig
+  - /feature_encoders@model_feature_encoder: MyAtomEncoder
+  - /feature_encoders@selection_feature_encoder: MyAtomEncoder
+
+dataset_name: ogbg-molbace
+dataroot: data
+num_tasks: 1
+num_hops: 3
+in_dim: 21
+metric: ${callable:utils.rocauc}
+loss: ${callable:torch.nn.functional.binary_cross_entropy_with_logits}
+model_feature_encoder:
+  in_dim: ${..in_dim}
+selection_feature_encoder:
+  in_dim: ${..in_dim}

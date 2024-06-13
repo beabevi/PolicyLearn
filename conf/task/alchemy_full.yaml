@@ -1,0 +1,16 @@
+defaults:
+  - TaskConfig
+  - /feature_encoders@model_feature_encoder: LinearEncoder
+  - /feature_encoders@selection_feature_encoder: LinearEncoder
+
+dataset_name: alchemy_full
+dataroot: data
+num_tasks: 12
+num_hops: 3
+in_dim: 6
+metric: ${callable:utils.mean_absolute_error_with_std}
+loss: ${callable:torch.nn.functional.l1_loss}
+model_feature_encoder:
+  in_dim: ${..in_dim}
+selection_feature_encoder:
+  in_dim: ${..in_dim}

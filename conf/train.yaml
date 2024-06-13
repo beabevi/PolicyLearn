@@ -1,0 +1,51 @@
+defaults:
+  - hydra@hydra: directory
+  - TrainConfig
+  - task@task: TaskConfig
+  - models@model_backbone: DSNetworkBackbone
+  - models@model: DSNetworkConfig
+  - models@model.final_reductions: reduction_graphs
+  - models@selection_model: DSNetworkConfig
+  - models@selection_model.final_reductions: reduction_nodes
+  - optim@opt: adam
+  - optim@selection_opt: adam
+  # - override models@model.num_tasks: task_fields.num_tasks
+  - _self_
+
+should_checkpoint:
+  is_better: ${callable:operator.lt}
+  init: .inf
+
+# Model backbone definition
+model_backbone:
+  add_residual: False
+  layernorm: False
+  feature_encoder: ${task.model_feature_encoder}
+  in_dim: ${task.model_feature_encoder.emb_dim}
+  track_running_stats: True
+
+# Model definitions
+model:
+  num_tasks: ${task.num_tasks}
+
+# Selection backbone definition
+selection_backbone:
+  layernorm: False
+  feature_encoder: ${task.selection_feature_encoder}
+  in_dim: ${task.selection_feature_encoder.emb_dim}
+  track_running_stats: False
+  add_residual: ${model_backbone.add_residual}
+  num_layers: ${model_backbone.num_layers}
+
+# Selection model definitions
+selection_model:
+  num_tasks: null
+
+task:
+  model_feature_encoder:
+    emb_dim: ${..in_dim}
+    k: ${num_marked}
+  selection_feature_encoder:
+    emb_dim: ${..in_dim}
+    k: ${num_marked}
+

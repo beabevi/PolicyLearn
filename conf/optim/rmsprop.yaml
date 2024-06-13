@@ -1,0 +1,3 @@
+defaults:
+  - /optim@optimizer: RMSpropConfig
+  - /optim@scheduler: StepLRConfig

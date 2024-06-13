@@ -1,0 +1,3 @@
+feature_encoder: ${task.feature_encoder}
+in_dim: ${task.feature_encoder.emb_dim}
+num_tasks: ${task.num_tasks}

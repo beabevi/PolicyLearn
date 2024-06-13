@@ -1,0 +1,16 @@
+defaults:
+  - TaskConfig
+  - /feature_encoders@model_feature_encoder: ZincAtomEncoder
+  - /feature_encoders@selection_feature_encoder: ZincAtomEncoder
+
+dataset_name: ZINC
+dataroot: data
+num_tasks: 1
+num_hops: 3
+in_dim: 21
+metric: ${callable:torchmetrics.functional.mean_absolute_error}
+loss: ${callable:torch.nn.functional.l1_loss}
+model_feature_encoder:
+  in_dim: ${..in_dim}
+selection_feature_encoder:
+  in_dim: ${..in_dim}
